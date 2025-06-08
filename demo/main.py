@@ -75,18 +75,24 @@ st.set_page_config(page_title="🔐 Password Manager", page_icon="🔐")
 
 st.title("🔐 Secure Password Generator")
 
+generated_password = None  # Store outside form
+
 with st.form("generate_form"):
     label = st.text_input("Label (e.g., Gmail):")
     length = st.slider("Password length:", min_value=4, max_value=40, value=12)
     submitted = st.form_submit_button("Generate & Save")
 
-    if submitted:
-        password = generate_password(length)
-        if password:
-            save_password(label, password)
-            st.success(f"Generated password: `{password}`")
-            st.code(password, language="text")
-            st.download_button("📋 Copy Password", password, file_name="password.txt", mime="text/plain")
+if submitted:
+    password = generate_password(length)
+    if password:
+        save_password(label, password)
+        st.success(f"Generated password: `{password}`")
+        st.code(password, language="text")
+        generated_password = password  # store for use outside form
+
+# 🪄 Show copy button only after generation
+if generated_password:
+    st.download_button("📋 Copy Password", generated_password, file_name="password.txt", mime="text/plain")
 
 # ---------------------- View Passwords ----------------------
 
