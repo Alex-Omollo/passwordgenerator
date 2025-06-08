@@ -1,2 +1,4 @@
 passwords.enc
 secret.key
+./demo/passwords.enc
+./demo/secret.key
